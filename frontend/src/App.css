@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+html, body{
+  height: 100%;
+  width: 100%;
+  margin:0;
+  padding:0;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+}
+
+.header{
+  background-color: #00aabb;
+  font-size: 2.5em;
+  padding:5px;
+  font-weight: bold;
+  text-align: left;
+}
+.messages {
+  background-color: #282c34;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: start;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  overflow: scroll;
+}
+
+.speech-bubble-bot {
+	position: relative;
+	background: #00aabb;
+  border-radius: .4em;
+  padding: 7px;
+  font-size: 20px;
+  margin-left: 20px;
+}
+
+.speech-bubble-bot:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-right-color: #00aabb;
+	border-left: 0;
+	border-bottom: 0;
+	margin-top: -10px;
+	margin-left: -15px;
+}
+
+
+.speech-bubble-user {
+	position: relative;
+	background: #68e109;
+  border-radius: .4em;
+  padding: 7px;
+  font-size: 20px;
+  margin-right: 20px;
+  align-self: flex-end;
+}
+
+.speech-bubble-user:after {
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-left-color: #68e109;
+	border-right: 0;
+	border-bottom: 0;
+	margin-top: -10px;
+	margin-right: -15px;
+}
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
