@@ -89,6 +89,13 @@ html, body{
 .App-link {
   color: #61dafb;
 }
+.choices{
+  align-self: flex-end;
+  margin: 0;
+  margin-top: auto;
+  font-size: 20px;
+  padding: 5px;
+}
 
 @keyframes App-logo-spin {
   from {

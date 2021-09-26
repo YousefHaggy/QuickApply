@@ -8,14 +8,22 @@ export const request = async (method, path, options = {}) => {
   const headers = {
     "Content-Type": "application/json",
   };
+  let json, response;
+  try {
+    response = await fetch(fullPath, {
+      method: method,
+      body: JSON.stringify(body),
+      headers,
+    });
+  } catch {
+    return { response: null, json: null };
+  }
 
-  const response = await fetch(fullPath, {
-    method: method,
-    body: JSON.stringify(body),
-    headers,
-  });
-
-  const json = await response.json();
+  try {
+    json = await response.json();
+  } catch {
+    return { response, json: null };
+  }
 
   return { response, json };
 };
