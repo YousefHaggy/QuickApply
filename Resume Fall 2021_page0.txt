@@ -1,0 +1,56 @@
+Yousef Haggy
+540-654-0987 / yousef.r.haggy@gmail.com / github.com/YousefHaggy / U.S Citizen
+
+Education
+Virginia Commonwealth University, Richmond VA Expected Graduation: December 2021
+Computer Science, B.S. GPA: 4.0
+
+VCU Presidential Scholarship Recipient
+Programming Languages and Skills
+
+Languages: (proficient) Javascript, Python, Go, Java, Typescript, SQL, HTML/CSS (familiar) C#, C++, C
+Technologies: Kubernetes, Flask, Node.js, React/React Native, Docker, Git, AWS, MongoDB, Redis, MySQL, PostgreSQL, CircleCl
+
+Software Engineering Work Experience
+
+Software Development Intern Salesforce May 2021 - August 2021
+- Published and utilized a new javascript library to reduce the execution time of several VS Code commands by over 250%
+- Added support for custom Cloud Native Buildpacks to a Kubernetes based source-code build system for FaaS apps
+- Made several contributions to the open source CNCF buildpacks project.
+- Utilized Skills: Go, Typescript, Kubernetes, Node.js, Cloud Native, Buildpacks, Open Source, Testing, CircleCi
+Zippity Cars
+Software Development Engineer August 2020 - April 2021
+Software Development Intern June 2020 - August 2020
+- Refactored Infrastructure as Code (laC) to increase deployment pipeline capacity from 16 clients to 160 clients and fully
+separate staging and production resources
+- Improved routing system to meet customer expectations an estimated ~8% more often. Added additional routing metrics
+- Designed and developed a flexible notification system with multiple delivery channels for dealerships across the country.
+- Made several changes to the Ul and flow of the mobile car care booking app accessed by 1000+ visitors weekly
+- Utilized Skills: React / React Native, Javascript, PostgreSQL, Python, Flask, AWS, Git, Infrastructure as Code (AWS CDK)
+Backend Development Intern Dynamic Brands June 2020 - August 2020
+-  Developed tooling for managing internationalized emails triggered by app events
+- Integrated with Mailchimp and Shopify APIs in order to link mobile app events with marketing efforts
+- Utilized Skills: AWS Lambda, DynamoDB, Node.js / Javascript
+
+Personal Software Projects
+
+Fredericksburg Regional Food Bank App July 2019 - present
+- Developed a cross-platform app for communicating pantry information and updates. 3000+ installations
+- Created a Flask backend to send major updates and notifications to users. 600,000+ total push notifications sent.
+- Developed a highly configurable admin facing web application for managing pantry information and updates
+- Utilized Skills: React Native, React, Python, Flask, Javascript, MongoDB, Heroku, Redis, JWT authentication, next.js
+United2Heal App & Backend July 2018 - June-2020
+- Developed a RESTful API to handle interactions with a MySQL database of medical supplies
+- Developed a native Android mobile app that aids in the sorting and shipment of hundreds of medical supplies for the
+non-profit United2Heal. Over 300,000 medical supplies have been sorted using the app
+- Utilized Skills: Java, Android Studio, MySQL, Python, Cloud Storage, Git, Flask
+TLDW Spring 2020
+- Developed a Chrome Extension that seamlessly generates summaries of Youtube videos
+- Utilized Skills: Javascript, Python, Docker
+Mazel.io Summer 2019
+- Developed a multiplayer maze game with over 3000 unique players
+- Utilized Skills: Python, Flask, Javascript, HTML/CSS, web sockets, Git
+Activities and Clubs
+
+ACM Programming Club (president), RamDev, United2Heal, Wrestling, SHPE, PennyAppeal
+

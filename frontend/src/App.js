@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import TextField from "@material-ui/core/TextField";
 import Chip from "@material-ui/core/Chip";
@@ -31,6 +31,16 @@ function App() {
     {
       content:
         "Please briefly describe your experiences or attach a resume to see matching roles",
+      choices: [
+        {
+          value: "Upload Resume",
+          onClick: () => {
+            inputFile.current.click();
+            return "DONOTHING";
+          },
+        },
+      ],
+      isInputDisabled: false,
       onResponse: async (userResponse) => {
         try {
           const { response, json } = await request("GET", "role", {
@@ -76,6 +86,10 @@ function App() {
         type: "bot",
       },
     ]);
+    if (!!questions[currentQuestionIndex].choices) {
+      setChoices(questions[currentQuestionIndex].choices);
+      setIsInputDisabled(questions[currentQuestionIndex].isInputDisabled);
+    }
     document.getElementById("messages").scrollTop += 500;
   }, [currentQuestionIndex]);
 
@@ -134,8 +148,32 @@ function App() {
     }
   };
 
+  const inputFile = useRef();
   return (
     <div className="App">
+      <input
+        type="file"
+        id="file"
+        ref={inputFile}
+        onChange={async (event) => {
+          const file = event.target.files[0];
+          setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+          const { response, json } = await request("GET", "role", {
+            params: { description: "test thing" },
+          });
+          if (response.status == 200) {
+            setChoices(
+              json.slice(0, 3).map(({ title }) => ({
+                value: title,
+                onClick: () => updateApplication("role", title),
+              }))
+            );
+          }
+          setIsInputDisabled(true);
+          console.log(file);
+        }}
+        style={{ display: "none" }}
+      />
       <div className="header">QuickApply</div>
       <div className="messages" id="messages">
         {messages.map(({ content, type }) => (
@@ -160,7 +198,9 @@ function App() {
                   },
                 ]);
                 const valid = await onClick();
-                if (valid) {
+                if (valid == "DONOTHING") {
+                  return;
+                } else if (valid) {
                   nextMessage();
                 } else {
                   errorMessage();

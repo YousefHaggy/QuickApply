@@ -3,12 +3,12 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 from flask_cors import CORS
 import os
-
+from bson import ObjectId
 from collections import Counter
 import math
 import numpy as np
 from numpy import linalg as LA
- 
+
 load_dotenv()
 client = MongoClient(os.environ["DB_URL"])
 
@@ -47,8 +47,14 @@ def get_applications():
         app_list.append(app)
     return jsonify(app_list)
 
+@app.route("/application/<id>", methods=["PUT"])
+def modify_application(id):
+    print(id, request.json)
+    db.applications.update_one({'_id': ObjectId(id)}, {"$set": request.json}, upsert=False)
+    return "Updated succesfully", 200
 
-@app.route("/roles", methods=["GET"])
+
+@app.route("/role", methods=["GET"])
 def get_roles():
     user_description = request.args.get("description")
     roles= []

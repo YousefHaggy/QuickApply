@@ -4,3 +4,5 @@ flask
 flask-cors
 spacy
 nltk
+pytesseract
+pdf2image
