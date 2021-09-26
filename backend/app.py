@@ -13,6 +13,9 @@ import pytesseract
 from pdf2image import convert_from_bytes
 import glob
 
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
 
 load_dotenv()
 client = MongoClient(os.environ["DB_URL"])
@@ -57,6 +60,25 @@ def modify_application(id):
     print(id, request.json)
     db.applications.update_one({'_id': ObjectId(id)}, {"$set": request.json}, upsert=False)
     return "Updated succesfully", 200
+
+@app.route("/application/<id>/finish", methods=["POST"])
+def submit_application(id):
+    db.applications.update_one({'_id': ObjectId(id)}, {"$set": {"status":"submitted"}}, upsert=False)
+    app = db.applications.find_one({'_id': ObjectId(id)})
+    message = Mail(
+    from_email='haggyy@vcu.edu',
+    to_emails=app["email"],
+    subject=f'Your {app["role"]} application to XYZ company has been received',
+    html_content=f"<p>Hello {app['name']}, we've received your {app['role']} application</p>")
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e.message)
+    return "Submitted succesfully", 200
 
 
 def convert_to_txt(pdf):

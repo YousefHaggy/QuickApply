@@ -6,3 +6,4 @@ spacy
 nltk
 pytesseract
 pdf2image
+sendgrid
