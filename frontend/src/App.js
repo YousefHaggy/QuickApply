@@ -158,8 +158,23 @@ function App() {
         onChange={async (event) => {
           const file = event.target.files[0];
           setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+
+          const formData = new FormData();
+          formData.append("file", file);
+          const {
+            json: { text },
+          } = await request(
+            "POST",
+            "text-from-pdf",
+            {
+              body: formData,
+            },
+            false,
+            false
+          );
+          // TODO: Make this different
           const { response, json } = await request("GET", "role", {
-            params: { description: "test thing" },
+            params: { description: text },
           });
           if (response.status == 200) {
             setChoices(
@@ -169,6 +184,7 @@ function App() {
               }))
             );
           }
+
           setIsInputDisabled(true);
           console.log(file);
         }}

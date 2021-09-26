@@ -9,6 +9,11 @@ import math
 import numpy as np
 from numpy import linalg as LA
 
+import pytesseract
+from pdf2image import convert_from_bytes
+import glob
+
+
 load_dotenv()
 client = MongoClient(os.environ["DB_URL"])
 
@@ -54,6 +59,17 @@ def modify_application(id):
     return "Updated succesfully", 200
 
 
+def convert_to_txt(pdf):
+    pages = convert_from_bytes(pdf.read(), 500)
+    for pageNum,imgBlob in enumerate(pages):
+        text = pytesseract.image_to_string(imgBlob,lang='eng')
+        return {"text":text}, 200
+
+@app.route("/text-from-pdf", methods=["POST"])
+def get_text_from_pdf():
+    file = request.files['file']
+    return convert_to_txt(file)
+
 @app.route("/role", methods=["GET"])
 def get_roles():
     user_description = request.args.get("description")
@@ -86,9 +102,10 @@ def get_roles():
         return counts
     def build_query_vector(query, documents):
         count = word_count(query)
-        vector = np.zeros((len(count),1))
+        print(count)
+        vector = np.zeros((len(query.lower().split()),1))
         for i, word in enumerate(query.lower().split()):
-            vector[i] = float(count[word])/len(count) * inverseDocumentFrequency(word, documents)
+            vector[i][0] = float(count[word])/len(count) * inverseDocumentFrequency(word, documents)
         return vector
         
     query_vector = build_query_vector(user_description, [role["description"] for role in roles])
