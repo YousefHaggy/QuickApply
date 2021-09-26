@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import TextField from "@material-ui/core/TextField";
 import Chip from "@material-ui/core/Chip";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { request } from "./apiHelper";
 function App() {
@@ -9,7 +10,7 @@ function App() {
   const questions = [
     {
       content:
-        "Hello, welcome to QuickApply recruiting. We'll help you find and apply to a role in 1-3 minutes. Could you start by providing your email address?",
+        "Hello, welcome to QuickApply recruiting, an automated virtual agent. We'll help you find and apply to a role in 1-3 minutes. Could you start by providing your email address?",
       onResponse: async (userResponse) => {
         console.log(userResponse);
         try {
@@ -67,8 +68,25 @@ function App() {
         "Looking at your experiences, I found the following open roles. Pick a role:",
     },
     {
-      content: "What's your name?",
+      content:
+        "Awesome, just a few more questions to complete your application. What's your name?",
       onResponse: (userResponse) => updateApplication("name", userResponse),
+    },
+    {
+      content: "Are you looking for internship roles or fulltime?",
+      isInputDisabled: true,
+      choices: ["Internship", "Full Time", "Part Time"].map((type) => ({
+        value: type,
+        onClick: () => updateApplication("type", type),
+      })),
+    },
+    {
+      content: "Are you willing to relocate?",
+      isInputDisabled: true,
+      choices: ["Yes", "No"].map((type) => ({
+        value: type,
+        onClick: () => updateApplication("relocation", type),
+      })),
     },
   ];
 
@@ -90,7 +108,6 @@ function App() {
       setChoices(questions[currentQuestionIndex].choices);
       setIsInputDisabled(questions[currentQuestionIndex].isInputDisabled);
     }
-    document.getElementById("messages").scrollTop += 500;
   }, [currentQuestionIndex]);
 
   const [input, setInput] = useState("");
@@ -98,6 +115,10 @@ function App() {
 
   const [choices, setChoices] = useState([]);
   const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    document.getElementById("messages").scrollTop += 500;
+  }, [messages]);
 
   const errorMessage = () => {
     setMessages((prevMessages) => [
@@ -117,7 +138,6 @@ function App() {
         "type": "bot",
       },
     ]);
-    document.getElementById("messages").scrollTop += 1000;
     setIsInputDisabled(true);
   };
 
@@ -134,13 +154,13 @@ function App() {
     );
     if (response?.status == 200) {
       setChoices([]);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          content: "Roger that, I've recorded your selection",
-          "type": "bot",
-        },
-      ]);
+      // setMessages((prevMessages) => [
+      //   ...prevMessages,
+      //   {
+      //     content: "Roger that, I've recorded your selection",
+      //     "type": "bot",
+      //   },
+      // ]);
       setIsInputDisabled(false);
       return true;
     } else {
@@ -148,6 +168,7 @@ function App() {
     }
   };
 
+  const [isLoading, setIsLoading] = useState(false);
   const inputFile = useRef();
   return (
     <div className="App">
@@ -156,8 +177,8 @@ function App() {
         id="file"
         ref={inputFile}
         onChange={async (event) => {
+          setIsLoading(true);
           const file = event.target.files[0];
-          setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
 
           const formData = new FormData();
           formData.append("file", file);
@@ -172,10 +193,11 @@ function App() {
             false,
             false
           );
-          // TODO: Make this different
+
           const { response, json } = await request("GET", "role", {
             params: { description: text },
           });
+          setIsLoading(false);
           if (response.status == 200) {
             setChoices(
               json.slice(0, 3).map(({ title }) => ({
@@ -183,10 +205,9 @@ function App() {
                 onClick: () => updateApplication("role", title),
               }))
             );
+            setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+            setIsInputDisabled(true);
           }
-
-          setIsInputDisabled(true);
-          console.log(file);
         }}
         style={{ display: "none" }}
       />
@@ -195,6 +216,7 @@ function App() {
         {messages.map(({ content, type }) => (
           <p className={"speech-bubble-" + type}>{content}</p>
         ))}
+        {isLoading && <CircularProgress style={{ alignSelf: "center" }} />}
         <div className="choices">
           {choices.map(({ value, onClick }) => (
             <Chip
@@ -221,7 +243,6 @@ function App() {
                 } else {
                   errorMessage();
                 }
-                document.getElementById("messages").scrollTop += 500;
               }}
             />
           ))}
@@ -250,7 +271,6 @@ function App() {
               } else {
                 errorMessage();
               }
-              document.getElementById("messages").scrollTop += 500;
               ev.preventDefault();
             }
           }}

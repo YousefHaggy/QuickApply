@@ -64,7 +64,7 @@ html, body{
 
 .speech-bubble-user {
 	position: relative;
-	background: #68e109;
+	background: #00bb6f;
   border-radius: .4em;
   padding: 7px;
   font-size: 20px;
@@ -80,7 +80,7 @@ html, body{
 	width: 0;
 	height: 0;
 	border: 20px solid transparent;
-	border-left-color: #68e109;
+	border-left-color: #00bb6f;
 	border-right: 0;
 	border-bottom: 0;
 	margin-top: -10px;
