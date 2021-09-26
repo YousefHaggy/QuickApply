@@ -3,6 +3,7 @@ import "./App.css";
 import TextField from "@material-ui/core/TextField";
 import { request } from "./apiHelper";
 function App() {
+  const [applicationId, setApplicationId] = useState();
   const questions = [
     {
       content:
@@ -12,11 +13,28 @@ function App() {
         try {
           const { response, json } = await request(
             "POST",
-            "application/email",
+            "application/start",
             { params: { email: userResponse } }
           );
-
           if (response.status == 200) {
+            setApplicationId(json.id);
+            return true;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        return false;
+      },
+    },
+    {
+      content: "Please briefly describe the role you are looking for",
+      onResponse: async (userResponse) => {
+        try {
+          const { response, json } = await request("GET", "roles", {
+            params: { description: userResponse },
+          });
+          if (response.status == 200) {
+            setApplicationId(json.id);
             return true;
           }
         } catch (error) {
@@ -82,14 +100,14 @@ function App() {
                   finishChat();
                   return;
                 }
-                setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
                 setMessages([
                   ...messages,
                   {
-                    content: questions[currentQuestionIndex].content,
+                    content: questions[currentQuestionIndex + 1].content,
                     type: "bot",
                   },
                 ]);
+                setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
               } else {
                 errorMessage();
               }
