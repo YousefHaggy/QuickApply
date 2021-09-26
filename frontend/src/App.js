@@ -30,6 +30,14 @@ function App() {
       },
     },
     {
+      content: "How many years of working experience do you have?",
+      isInputDisabled: true,
+      choices: ["0-2", "2-5", "5+"].map((type) => ({
+        value: type,
+        onClick: () => updateApplication("experience", type),
+      })),
+    },
+    {
       content:
         "Please briefly describe your experiences or attach a resume to see matching roles",
       choices: [

@@ -60,7 +60,7 @@ def modify_application(id):
 
 
 def convert_to_txt(pdf):
-    pages = convert_from_bytes(pdf.read(), 500)
+    pages = convert_from_bytes(pdf.read(), 300)
     for pageNum,imgBlob in enumerate(pages):
         text = pytesseract.image_to_string(imgBlob,lang='eng')
         return {"text":text}, 200
